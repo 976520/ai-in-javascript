@@ -1,15 +1,15 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./pages/Main/Main";
 
-const Router = () => {
+const AppRouter = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path="/main" element={<Main />} />
+        <Route path="/" element={<Main />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 };
 
-export default Router;
+export default AppRouter;
