@@ -80,9 +80,7 @@ const Main = () => {
 
   return (
     <div>
-      <h1>Neural Network Simulation</h1>
       <div>
-        <h2>Input Values</h2>
         {inputs.map((input, index) => (
           <InputField
             key={index}
@@ -93,7 +91,7 @@ const Main = () => {
           />
         ))}
       </div>
-      <button onClick={trainNetwork}>Train Network</button>
+      <button onClick={trainNetwork}>학습</button>
       <Network>
         <Layer>
           <Node inputs={inputs} weights={weights1[0]} onOutput={(output) => handleLayer1Output(0, output)} />
@@ -104,7 +102,7 @@ const Main = () => {
           <Node inputs={layer1Outputs} weights={weights2[0]} onOutput={handleLayer2Output} />
         </Layer>
       </Network>
-      <h2>Final Output: {layer2Outputs[0].toFixed(4)}</h2>
+      <h2>{layer2Outputs[0].toFixed(4)}</h2>
     </div>
   );
 };

@@ -25,14 +25,16 @@ const Node = ({ inputs, weights, onOutput }) => {
     if (inputs && weights && inputs.length === weights.length) {
       const weightedSum = inputs.reduce((sum, input, index) => sum + input * weights[index], 0);
       const activatedOutput = sigmoid(weightedSum);
-      setOutput(activatedOutput);
-      onOutput(activatedOutput);
+      if (output !== activatedOutput) {
+        setOutput(activatedOutput);
+        onOutput(activatedOutput);
+      }
     }
-  }, [inputs, weights, onOutput]);
+  }, [inputs, weights, onOutput, output]);
 
   return (
     <NodeContainer>
-      <p>Output: {output.toFixed(4)}</p>
+      <p>{output.toFixed(4)}</p>
     </NodeContainer>
   );
 };
