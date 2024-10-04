@@ -1,38 +1,23 @@
+import { InputSection } from "../../components/InputSection/InputSection";
+import { NetworkSection } from "../../components/NetworkSection.jsx/NetworkSection";
+
 import React, { useState } from "react";
-import styled from "styled-components";
-import Node from "../../components/Node";
-
-const Network = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  position: relative;
-`;
-
-const Layer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 20px;
-  position: relative;
-`;
-
-const InputField = styled.input`
-  margin: 5px;
-  padding: 5px;
-  width: 80px;
-`;
 
 const Main = () => {
   const [layer1Outputs, setLayer1Outputs] = useState([0, 0, 0]);
+
   const [layer2Outputs, setLayer2Outputs] = useState([0]);
+
   const [weights1, setWeights1] = useState([
     [0.5, 0.8, 0.3],
     [0.4, 0.7, 0.6],
     [0.6, 0.9, 0.1],
   ]);
+
   const [weights2, setWeights2] = useState([[0.6, 0.9]]);
+
   const [inputs, setInputs] = useState([0, 0, 0]);
+
   const learningRate = 0.1;
 
   const handleLayer1Output = (index, output) => {
@@ -48,6 +33,7 @@ const Main = () => {
   const trainNetwork = () => {
     const targetOutput = 1;
     const layer1Errors = layer1Outputs.map((output) => targetOutput - output);
+
     const layer2Error = targetOutput - layer2Outputs[0];
 
     const newWeights1 = weights1.map((weights, index) => {
@@ -80,28 +66,16 @@ const Main = () => {
 
   return (
     <div>
-      <div>
-        {inputs.map((input, index) => (
-          <InputField
-            key={index}
-            type="number"
-            value={input}
-            onChange={(e) => handleInputChange(index, e.target.value)}
-            placeholder={`Input ${index + 1}`}
-          />
-        ))}
-      </div>
+      <InputSection inputs={inputs} handleInputChange={handleInputChange} /> {/* Updated to use InputSection */}
       <button onClick={trainNetwork}>학습</button>
-      <Network>
-        <Layer>
-          <Node inputs={inputs} weights={weights1[0]} onOutput={(output) => handleLayer1Output(0, output)} />
-          <Node inputs={inputs} weights={weights1[1]} onOutput={(output) => handleLayer1Output(1, output)} />
-          <Node inputs={inputs} weights={weights1[2]} onOutput={(output) => handleLayer1Output(2, output)} />
-        </Layer>
-        <Layer>
-          <Node inputs={layer1Outputs} weights={weights2[0]} onOutput={handleLayer2Output} />
-        </Layer>
-      </Network>
+      <NetworkSection
+        inputs={inputs}
+        layer1Outputs={layer1Outputs}
+        weights1={weights1}
+        handleLayer1Output={handleLayer1Output}
+        weights2={weights2}
+        handleLayer2Output={handleLayer2Output}
+      />{" "}
       <h2>{layer2Outputs[0].toFixed(4)}</h2>
     </div>
   );
