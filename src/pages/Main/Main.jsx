@@ -42,15 +42,16 @@ const Main = () => {
           weight +
           learningRate *
             layer1Errors[index] *
-            (layer1Outputs[index] * (1 - layer1Outputs[index])) *
-            (index === 0 ? 1 : layer1Outputs[index - 1])
+            layer1Outputs[index] *
+            (1 - layer1Outputs[index]) *
+            (index === 0 ? inputs[weightIndex] : layer1Outputs[index - 1])
         );
       });
     });
 
     const newWeights2 = weights2.map((weights) => {
       return weights.map((weight, index) => {
-        return weight + learningRate * layer2Error * (layer2Outputs[0] * (1 - layer2Outputs[0])) * layer1Outputs[index];
+        return weight + learningRate * layer2Error * layer2Outputs[0] * (1 - layer2Outputs[0]) * layer1Outputs[index];
       });
     });
 
@@ -66,7 +67,7 @@ const Main = () => {
 
   return (
     <div>
-      <InputSection inputs={inputs} handleInputChange={handleInputChange} /> {/* Updated to use InputSection */}
+      <InputSection inputs={inputs} handleInputChange={handleInputChange} />
       <button onClick={trainNetwork}>학습</button>
       <NetworkSection
         inputs={inputs}
