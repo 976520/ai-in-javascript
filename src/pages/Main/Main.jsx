@@ -4,7 +4,7 @@ import { NetworkSection } from "../../components/NetworkSection.jsx/NetworkSecti
 import React, { useState } from "react";
 
 const Main = () => {
-  const [layer1Outputs, setLayer1Outputs] = useState([0, 0, 0]);
+  const [layer1Outputs, setLayer1Outputs] = useState([0, 0, 0, 0]);
 
   const [layer2Outputs, setLayer2Outputs] = useState([0]);
 
@@ -12,9 +12,10 @@ const Main = () => {
     [0.5, 0.8, 0.3],
     [0.4, 0.7, 0.6],
     [0.6, 0.9, 0.1],
+    [0.2, 0.3, 0.4],
   ]);
 
-  const [weights2, setWeights2] = useState([[0.6, 0.9]]);
+  const [weights2, setWeights2] = useState([[0.6, 0.9, 0.1, 0.2]]);
 
   const [inputs, setInputs] = useState([0, 0, 0]);
 
