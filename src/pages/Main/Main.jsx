@@ -4,6 +4,7 @@ import { NetworkSection } from "../../components/NetworkSection.jsx/NetworkSecti
 import React, { useState } from "react";
 
 const Main = () => {
+  const sigmoid = (x) => 1 / (1 + Math.exp(-x));
   const [layer1Outputs, setLayer1Outputs] = useState([0, 0, 0, 0]);
   const [layer2Outputs, setLayer2Outputs] = useState([0, 0, 0, 0]);
   const [layer3Outputs, setLayer3Outputs] = useState([0, 0, 0, 0]);
@@ -60,10 +61,25 @@ const Main = () => {
 
   const trainNetwork = () => {
     const targetOutput = 1;
+
+    const layer1Outputs = weights1.map((weights) => {
+      return sigmoid(inputs.reduce((sum, input, index) => sum + input * weights[index], 0));
+    });
+
+    const layer2Outputs = weights2.map((weights) => {
+      return sigmoid(layer1Outputs.reduce((sum, output, index) => sum + output * weights[index], 0));
+    });
+
+    const layer3Outputs = weights3.map((weights) => {
+      return sigmoid(layer2Outputs.reduce((sum, output, index) => sum + output * weights[index], 0));
+    });
+
+    const layer4Output = sigmoid(layer3Outputs.reduce((sum, output, index) => sum + output * weights4[0][index], 0));
+
     const layer1Errors = layer1Outputs.map((output) => targetOutput - output);
     const layer2Errors = layer2Outputs.map((output) => targetOutput - output);
     const layer3Errors = layer3Outputs.map((output) => targetOutput - output);
-    const layer4Error = targetOutput - layer4Outputs[0];
+    const layer4Error = targetOutput - layer4Output;
 
     const newWeights1 = weights1.map((weights, index) => {
       return weights.map((weight, weightIndex) => {

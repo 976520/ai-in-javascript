@@ -35,6 +35,7 @@ const Node = ({ inputs, weights, onOutput }) => {
   return (
     <NodeContainer>
       <p>{output.toFixed(4)}</p>
+      <p>{weights.join("  ")}</p>
     </NodeContainer>
   );
 };
