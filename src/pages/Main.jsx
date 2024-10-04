@@ -2,10 +2,10 @@ import { InputSection } from "../components/InputSection/InputSection";
 import { NetworkSection } from "../components/NetworkSection.jsx/NetworkSection";
 
 import React, { useState } from "react";
-import { useNetworkOutput } from "./useNetworkOutput";
-import { useNetworkWeight } from "./useNetworkWeight";
-import { useNetworkHandler } from "./useNetworkHandler";
-import { useNetworkTraining } from "./useNetworkTraining";
+import { useNetworkOutput } from "../hooks/useNetworkOutput";
+import { useNetworkWeight } from "../hooks/useNetworkWeight";
+import { useNetworkHandler } from "../hooks/useNetworkHandler";
+import { useNetworkTraining } from "../hooks/useNetworkTraining";
 
 const Main = () => {
   const [input, setInput] = useState([0, 0, 0]);
