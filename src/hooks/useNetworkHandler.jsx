@@ -5,23 +5,15 @@ export const useNetworkHandler = (setLayer1Output, setLayer2Output, setLayer3Out
   const [layer2Output, setLayer2OutputState] = useState(setLayer2Output);
   const [layer3Output, setLayer3OutputState] = useState(setLayer3Output);
 
-  const handleLayer1Output = (index, output) => {
-    const newOutput = [...layer1Output];
+  const handleOutput = (layerOutput, setLayerOutputState) => (index, output) => {
+    const newOutput = [...layerOutput];
     newOutput[index] = output;
-    setLayer1OutputState(newOutput);
+    setLayerOutputState(newOutput);
   };
 
-  const handleLayer2Output = (index, output) => {
-    const newOutput = [...layer2Output];
-    newOutput[index] = output;
-    setLayer2OutputState(newOutput);
-  };
-
-  const handleLayer3Output = (index, output) => {
-    const newOutput = [...layer3Output];
-    newOutput[index] = output;
-    setLayer3OutputState(newOutput);
-  };
+  const handleLayer1Output = handleOutput(layer1Output, setLayer1OutputState);
+  const handleLayer2Output = handleOutput(layer2Output, setLayer2OutputState);
+  const handleLayer3Output = handleOutput(layer3Output, setLayer3OutputState);
 
   const handleLayer4Output = (output) => {
     setLayer4Output([output]);

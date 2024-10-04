@@ -12,59 +12,40 @@ export const useNetworkTraining = (
   const sigmoid = (x) => 1 / (1 + Math.exp(-x));
   const learningRate = 0.1;
 
+  const calculateLayerOutput = (inputs, weights) => {
+    return weights.map((weight) => {
+      return sigmoid(inputs.reduce((sum, input, index) => sum + input * weight[index], 0));
+    });
+  };
+
+  const calculateError = (outputs, targetOutput) => {
+    return outputs.map((output) => targetOutput - output);
+  };
+
+  const updateWeights = (weights, errors, outputs, inputs) => {
+    return weights.map((weight, index) => {
+      return weight.map((weight, weightIndex) => {
+        return weight + learningRate * errors[index] * outputs[index] * (1 - outputs[index]) * inputs[weightIndex];
+      });
+    });
+  };
+
   const trainNetwork = () => {
     const targetOutput = 1;
 
-    const layer1Output = weight1.map((weight) => {
-      return sigmoid(input.reduce((sum, input, index) => sum + input * weight[index], 0));
-    });
-
-    const layer2Output = weight2.map((weight) => {
-      return sigmoid(layer1Output.reduce((sum, output, index) => sum + output * weight[index], 0));
-    });
-
-    const layer3Output = weight3.map((weight) => {
-      return sigmoid(layer2Output.reduce((sum, output, index) => sum + output * weight[index], 0));
-    });
-
+    const layer1Output = calculateLayerOutput(input, weight1);
+    const layer2Output = calculateLayerOutput(layer1Output, weight2);
+    const layer3Output = calculateLayerOutput(layer2Output, weight3);
     const layer4Output = sigmoid(layer3Output.reduce((sum, output, index) => sum + output * weight4[0][index], 0));
 
-    const layer1Error = layer1Output.map((output) => targetOutput - output);
-    const layer2Error = layer2Output.map((output) => targetOutput - output);
-    const layer3Error = layer3Output.map((output) => targetOutput - output);
+    const layer1Error = calculateError(layer1Output, targetOutput);
+    const layer2Error = calculateError(layer2Output, targetOutput);
+    const layer3Error = calculateError(layer3Output, targetOutput);
     const layer4Error = targetOutput - layer4Output;
 
-    const newWeight1 = weight1.map((weight, index) => {
-      return weight.map((weight, weightIndex) => {
-        return (
-          weight +
-          learningRate *
-            layer1Error[index] *
-            layer1Output[index] *
-            (1 - layer1Output[index]) *
-            (index === 0 ? input[weightIndex] : layer1Output[index - 1])
-        );
-      });
-    });
-
-    const newWeight2 = weight2.map((weight, index) => {
-      return weight.map((weight, weightIndex) => {
-        return (
-          weight +
-          learningRate * layer2Error[index] * layer2Output[index] * (1 - layer2Output[index]) * layer1Output[index]
-        );
-      });
-    });
-
-    const newWeight3 = weight3.map((weight, index) => {
-      return weight.map((weight, weightIndex) => {
-        return (
-          weight +
-          learningRate * layer3Error[index] * layer3Output[index] * (1 - layer3Output[index]) * layer2Output[index]
-        );
-      });
-    });
-
+    const newWeight1 = updateWeights(weight1, layer1Error, layer1Output, input);
+    const newWeight2 = updateWeights(weight2, layer2Error, layer2Output, layer1Output);
+    const newWeight3 = updateWeights(weight3, layer3Error, layer3Output, layer2Output);
     const newWeight4 = weight4.map((weight) => {
       return weight.map((weight, index) => {
         return weight + learningRate * layer4Error * layer3Output[index] * (1 - layer3Output[index]);
