@@ -1,6 +1,6 @@
 import { InputField } from "./InputSectionStyle";
 
-export const InputSection = ({ inputs, handleInputChange }) => (
+export const InputSection = ({ inputs = [], handleInputChange }) => (
   <div>
     {inputs.map((input, index) => (
       <InputField
