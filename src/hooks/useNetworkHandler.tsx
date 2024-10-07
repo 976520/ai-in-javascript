@@ -8,20 +8,17 @@ export const useNetworkHandler = (
   setLayer3Output: SetLayerOutput,
   setLayer4Output: React.Dispatch<React.SetStateAction<number[]>>
 ) => {
-  const [layer1Output, setLayer1OutputState] = useState<number[]>([]);
-  const [layer2Output, setLayer2OutputState] = useState<number[]>([]);
-  const [layer3Output, setLayer3OutputState] = useState<number[]>([]);
-
-  const handleOutput =
-    (layerOutput: number[], setLayerOutputState: SetLayerOutput) => (index: number, output: number) => {
-      const newOutput = [...layerOutput];
+  const handleOutput = (setLayerOutput: SetLayerOutput) => (index: number, output: number) => {
+    setLayerOutput((prevOutput) => {
+      const newOutput = [...prevOutput];
       newOutput[index] = output;
-      setLayerOutputState(newOutput);
-    };
+      return newOutput;
+    });
+  };
 
-  const handleLayer1Output = handleOutput(layer1Output, setLayer1OutputState);
-  const handleLayer2Output = handleOutput(layer2Output, setLayer2OutputState);
-  const handleLayer3Output = handleOutput(layer3Output, setLayer3OutputState);
+  const handleLayer1Output = handleOutput(setLayer1Output);
+  const handleLayer2Output = handleOutput(setLayer2Output);
+  const handleLayer3Output = handleOutput(setLayer3Output);
 
   const handleLayer4Output = (output: number) => {
     setLayer4Output([output]);
