@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import { sigmoid } from "../constants/ActivationFunction";
 
 export const useNetworkTraining = (
   input: number[],
@@ -11,12 +12,6 @@ export const useNetworkTraining = (
   setWeight3: React.Dispatch<React.SetStateAction<number[][]>>,
   setWeight4: React.Dispatch<React.SetStateAction<number[][]>>
 ) => {
-  const sigmoid = useMemo(
-    () =>
-      (x: number): number =>
-        1 / (1 + Math.exp(-x)),
-    []
-  );
   const learningRate = useMemo(() => 0.1, []);
 
   const calculateLayerOutput = useCallback(
