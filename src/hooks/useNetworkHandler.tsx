@@ -2,12 +2,7 @@ import { useState } from "react";
 
 type SetLayerOutput = React.Dispatch<React.SetStateAction<number[]>>;
 
-export const useNetworkHandler = (
-  setLayer1Output: SetLayerOutput,
-  setLayer2Output: SetLayerOutput,
-  setLayer3Output: SetLayerOutput,
-  setLayer4Output: React.Dispatch<React.SetStateAction<number[]>>
-) => {
+export const useNetworkHandler = (...setLayerOutputs: SetLayerOutput[]) => {
   const handleOutput = (setLayerOutput: SetLayerOutput) => (index: number, output: number) => {
     setLayerOutput((prevOutput) => {
       const newOutput = [...prevOutput];
@@ -16,18 +11,19 @@ export const useNetworkHandler = (
     });
   };
 
-  const handleLayer1Output = handleOutput(setLayer1Output);
-  const handleLayer2Output = handleOutput(setLayer2Output);
-  const handleLayer3Output = handleOutput(setLayer3Output);
-
-  const handleLayer4Output = (output: number) => {
-    setLayer4Output([output]);
-  };
+  const handlers = setLayerOutputs.map((setLayerOutput, index) => {
+    if (index === setLayerOutputs.length - 1) {
+      return (output: number) => {
+        setLayerOutput([output]);
+      };
+    }
+    return handleOutput(setLayerOutput);
+  });
 
   return {
-    handleLayer1Output,
-    handleLayer2Output,
-    handleLayer3Output,
-    handleLayer4Output,
+    handleLayer1Output: handlers[0],
+    handleLayer2Output: handlers[1],
+    handleLayer3Output: handlers[2],
+    handleLayer4Output: handlers[3],
   };
 };

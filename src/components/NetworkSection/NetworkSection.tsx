@@ -14,7 +14,7 @@ interface NetworkSectionProps {
   weights3: number[][];
   handleLayer3Output: (index: number, output: number) => void;
   weights4: number[][];
-  handleLayer4Output: (output: number) => void;
+  handleLayer4Output: (index: number, output: number) => void;
 }
 
 export const NetworkSection: React.FC<NetworkSectionProps> = ({
@@ -58,7 +58,9 @@ export const NetworkSection: React.FC<NetworkSectionProps> = ({
       ))}
     </Layer>
     <Layer>
-      {weights4.length > 0 && <Node inputs={layer3Outputs} weights={weights4[0]} onOutput={handleLayer4Output} />}
+      {weights4.length > 0 && (
+        <Node inputs={layer3Outputs} weights={weights4[0]} onOutput={(output) => handleLayer4Output(0, output)} />
+      )}
     </Layer>
   </Network>
 );
