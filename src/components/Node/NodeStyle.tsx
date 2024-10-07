@@ -13,4 +13,4 @@ export const NodeContainer = styled.div`
   margin: 20px 50px 20px 20px;
   text-align: center;
   background-color: #f0f0f0;
-`;
+` as any;

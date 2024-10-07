@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { NodeContainer } from "./NodeStyle";
+import { NodeContainer } from "./NodeStyle.tsx";
+import { sigmoid } from "../../constants/Sigmoid.tsx";
 
-const Node = ({ inputs, weights, onOutput }) => {
+interface NodeProps {
+  inputs: number[];
+  weights: number[];
+  onOutput: (output: number) => void;
+}
+
+const Node: React.FC<NodeProps> = ({ inputs, weights, onOutput }) => {
   const [output, setOutput] = useState(0);
-
-  const sigmoid = (x) => 1 / (1 + Math.exp(-x));
 
   useEffect(() => {
     if (inputs && weights && inputs.length === weights.length) {

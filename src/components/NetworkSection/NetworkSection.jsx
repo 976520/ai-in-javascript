@@ -1,4 +1,4 @@
-import Node from "../Node/Node";
+import Node from "../Node/Node.tsx";
 import { Network, Layer } from "./NetworkSectionStyle";
 
 export const NetworkSection = ({
