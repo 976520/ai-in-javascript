@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NodeContainer } from "./NodeStyle.tsx";
-import { sigmoid } from "../../constants/Sigmoid.tsx";
+import { sigmoid, relu, tanh, step } from "../../constants/ActivationFunction.tsx";
 
 interface NodeProps {
   inputs: number[];
