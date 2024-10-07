@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 export const useNetworkTraining = (
   input: number[],
@@ -11,26 +11,37 @@ export const useNetworkTraining = (
   setWeight3: React.Dispatch<React.SetStateAction<number[][]>>,
   setWeight4: React.Dispatch<React.SetStateAction<number[][]>>
 ) => {
-  const sigmoid = (x: number): number => 1 / (1 + Math.exp(-x));
-  const learningRate = 0.1;
+  const sigmoid = useMemo(
+    () =>
+      (x: number): number =>
+        1 / (1 + Math.exp(-x)),
+    []
+  );
+  const learningRate = useMemo(() => 0.1, []);
 
-  const calculateLayerOutput = (inputs: number[], weights: number[][]): number[] => {
-    return weights.map((weight) => {
-      return sigmoid(inputs.reduce((sum, input, index) => sum + input * weight[index], 0));
-    });
-  };
-
-  const calculateError = (outputs: number[], targetOutput: number): number[] => {
-    return outputs.map((output) => targetOutput - output);
-  };
-
-  const updateWeights = (weights: number[][], errors: number[], outputs: number[], inputs: number[]): number[][] => {
-    return weights.map((weight, index) => {
-      return weight.map((w, weightIndex) => {
-        return w + learningRate * errors[index] * outputs[index] * (1 - outputs[index]) * inputs[weightIndex];
+  const calculateLayerOutput = useCallback(
+    (inputs: number[], weights: number[][]): number[] => {
+      return weights.map((weight) => {
+        return sigmoid(inputs.reduce((sum, input, index) => sum + input * weight[index], 0));
       });
-    });
-  };
+    },
+    [sigmoid]
+  );
+
+  const calculateError = useCallback((outputs: number[], targetOutput: number): number[] => {
+    return outputs.map((output) => targetOutput - output);
+  }, []);
+
+  const updateWeights = useCallback(
+    (weights: number[][], errors: number[], outputs: number[], inputs: number[]): number[][] => {
+      return weights.map((weight, index) => {
+        return weight.map((w, weightIndex) => {
+          return w + learningRate * errors[index] * outputs[index] * (1 - outputs[index]) * inputs[weightIndex];
+        });
+      });
+    },
+    [learningRate]
+  );
 
   const trainNetwork = useCallback(() => {
     const targetOutput = 1;
@@ -66,7 +77,21 @@ export const useNetworkTraining = (
     setWeight2(newWeights[1]);
     setWeight3(newWeights[2]);
     setWeight4(newWeights[3]);
-  }, [input, weight1, weight2, weight3, weight4, setWeight1, setWeight2, setWeight3, setWeight4]);
+  }, [
+    input,
+    weight1,
+    weight2,
+    weight3,
+    weight4,
+    setWeight1,
+    setWeight2,
+    setWeight3,
+    setWeight4,
+    calculateLayerOutput,
+    calculateError,
+    updateWeights,
+    sigmoid,
+  ]);
 
   return trainNetwork;
 };
