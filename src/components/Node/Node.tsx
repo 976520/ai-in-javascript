@@ -24,7 +24,7 @@ const Node: React.FC<NodeProps> = ({ inputs, weights, onOutput }) => {
 
   return (
     <NodeContainer>
-      <p>{output.toFixed(4)}</p>
+      <h3>{output}</h3>
       <p>{weights.join("  ")}</p>
     </NodeContainer>
   );
