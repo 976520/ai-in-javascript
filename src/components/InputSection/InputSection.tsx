@@ -13,7 +13,7 @@ export const InputSection: React.FC<InputSectionProps> = ({ inputs = [], handleI
         key={index}
         type="number"
         value={input}
-        onChange={(e) => handleInputChange(index, e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(index, e.target.value)}
         placeholder={`Input ${index + 1}`}
       />
     ))}
