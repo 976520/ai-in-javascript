@@ -1,5 +1,5 @@
-import { InputSection } from "../components/InputSection/InputSection";
-import { NetworkSection } from "../components/NetworkSection/NetworkSection";
+import { InputSection } from "../components/InputSection/InputSection.tsx";
+import { NetworkSection } from "../components/NetworkSection/NetworkSection.tsx";
 
 import React, { useState } from "react";
 import { useNetworkOutput } from "../hooks/useNetworkOutput.tsx";

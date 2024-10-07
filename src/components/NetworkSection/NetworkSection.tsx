@@ -1,7 +1,23 @@
+import React from "react";
 import Node from "../Node/Node.tsx";
-import { Network, Layer } from "./NetworkSectionStyle";
+import { Network, Layer } from "./NetworkSectionStyle.tsx";
 
-export const NetworkSection = ({
+interface NetworkSectionProps {
+  inputs: number[];
+  layer1Outputs?: number[];
+  layer2Outputs?: number[];
+  layer3Outputs?: number[];
+  weights1: number[][];
+  handleLayer1Output: (index: number, output: number) => void;
+  weights2: number[][];
+  handleLayer2Output: (index: number, output: number) => void;
+  weights3: number[][];
+  handleLayer3Output: (index: number, output: number) => void;
+  weights4: number[][];
+  handleLayer4Output: (output: number) => void;
+}
+
+export const NetworkSection: React.FC<NetworkSectionProps> = ({
   inputs,
   layer1Outputs = [],
   layer2Outputs = [],

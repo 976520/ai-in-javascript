@@ -5,7 +5,7 @@ export const Network = styled.div`
   flex-direction: row;
   align-items: center;
   position: relative;
-`;
+` as any;
 
 export const Layer = styled.div`
   display: flex;
@@ -13,4 +13,4 @@ export const Layer = styled.div`
   justify-content: center;
   margin: 20px;
   position: relative;
-`;
+` as any;
